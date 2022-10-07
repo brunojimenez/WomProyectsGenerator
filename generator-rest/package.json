@@ -5,8 +5,10 @@
   "files": [
     "generators"
   ],
-  "keywords": ["yeoman-generator"],
+  "keywords": [
+    "yeoman-generator"
+  ],
   "dependencies": {
-    "yeoman-generator": "^1.0.0"
+    "yeoman-generator": "^1.1.1"
   }
 }
