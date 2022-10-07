@@ -60,7 +60,7 @@ public class ApiService {
 					PublicapisResponse.class);
 			log.error("[getProcess] restTemplate getForObject={}", responseCall);
 		} catch (HttpClientErrorException | HttpServerErrorException e) {
-			log.error("[getProcess] Error={}", e.getResponseBodyAsString()));
+			log.error("[getProcess] Error={}", e.getResponseBodyAsString());
 			throw new BusinessException("REST_CALL", "Rest Call Error");
 		}
 
