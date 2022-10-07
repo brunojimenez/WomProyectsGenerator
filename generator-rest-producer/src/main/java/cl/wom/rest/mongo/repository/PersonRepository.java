@@ -17,10 +17,6 @@ public interface PersonRepository extends MongoRepository<PersonDTO, String> {
 	// Custom search
 	PersonDTO findByRutAndActiveAndFriendsIn(String rut, boolean active, String friends);
 
-	// Custom search by query
-	@Query(value = "id = {}")
-	PersonDTO customFindById(String id);
-
 	// Custom search list by query
 	@Query(value = "{ 'active':?0, 'name':?1 }")
 	List<PersonDTO> findByActiveAndName(boolean active, String name);

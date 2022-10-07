@@ -1,7 +1,12 @@
 package cl.wom.rest.service;
 
 import org.slf4j.MDC;
+import org.springframework.http.HttpStatus;
+import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import cl.wom.rest.controller.response.GetResponse;
 import cl.wom.rest.controller.response.PostResponse;
@@ -9,6 +14,7 @@ import cl.wom.rest.exception.BusinessException;
 import cl.wom.rest.kafka.KafkaProducer;
 import cl.wom.rest.kafka.dto.Message;
 import cl.wom.rest.mongo.MongoDAO;
+import cl.wom.rest.publicapis.dto.PublicapisResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -16,12 +22,16 @@ import lombok.extern.slf4j.Slf4j;
 public class ApiService {
 
 	private MongoDAO mongoDAO;
-
 	private KafkaProducer kafkaProducer;
+	private RetryTemplate retryTemplate;
+	private RestTemplate restTemplate;
 
-	public ApiService(KafkaProducer kafkaProducer, MongoDAO mongoDAO) {
+	public ApiService(KafkaProducer kafkaProducer, MongoDAO mongoDAO, RetryTemplate retryTemplate,
+			RestTemplate restTemplate) {
 		this.kafkaProducer = kafkaProducer;
 		this.mongoDAO = mongoDAO;
+		this.retryTemplate = retryTemplate;
+		this.restTemplate = restTemplate;
 	}
 
 	// Read method
@@ -31,21 +41,52 @@ public class ApiService {
 		GetResponse getResponse = new GetResponse();
 		getResponse.setProcessStatus("OK");
 
-		// Example kafka producer call
+		// Example kafka producer
 		kafkaProducer.produce(Message.builder().data(MDC.get("trace-id") + "-Hola").build());
 
+		// MongoDB Example
 		try {
 
-			// Review mongoDB examples
-			mongoDAO.methodWithMongoTemplate();
-			mongoDAO.methodWithMongoTemplateQuery(null, null, null, null);
 			mongoDAO.methodWithRepository();
+			mongoDAO.methodWithMongoTemplate(null, null, null, null);
 
 		} catch (Exception e) {
-
 			log.error("[getProcess] Error={}", e.getMessage());
 			throw new BusinessException("MONGO", "Mongo Error");
+		}
 
+		try {
+			PublicapisResponse responseCall = restTemplate.getForObject("https://api.publicapis.org/random",
+					PublicapisResponse.class);
+			log.error("[getProcess] restTemplate getForObject={}", responseCall);
+		} catch (HttpClientErrorException | HttpServerErrorException e) {
+			log.error("[getProcess] Error={}", e.getResponseBodyAsString()));
+			throw new BusinessException("REST_CALL", "Rest Call Error");
+		}
+
+		// Retry Example
+		try {
+			log.info("[getProcess] Retry Begin");
+
+			retryTemplate.execute(retry -> {
+				log.info("[getProcess] RetryCount={}", retry.getRetryCount());
+
+				// Firts intent fail
+				if (retry.getRetryCount() == 0)
+					throw new HttpClientErrorException(HttpStatus.BAD_GATEWAY);
+
+				// Second intent fail
+				if (retry.getRetryCount() == 1)
+					throw new HttpClientErrorException(HttpStatus.BAD_GATEWAY);
+
+				// Third intent success
+				return true;
+			});
+
+			log.info("[getProcess] Retry End");
+		} catch (Exception e) {
+			log.error("[getProcess] Error={}", e.getMessage());
+			throw new BusinessException("RETRY", "Retry Error");
 		}
 
 		return getResponse;

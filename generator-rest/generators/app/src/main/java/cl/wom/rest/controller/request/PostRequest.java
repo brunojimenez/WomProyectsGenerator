@@ -17,6 +17,14 @@ public class PostRequest {
 	private String id;
 
 	@NotNull
+	@NotBlank
+	@Pattern(regexp = "^([0-9Kk]){8,9}$")
+	private String rut;
+
+	@Pattern(regexp = "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}$")
+	private String ipAddress;
+
+	@NotNull
 	@Size(min = 2, max = 30)
 	private String name;
 
@@ -27,8 +35,5 @@ public class PostRequest {
 	@Min(1)
 	@Max(120)
 	private Integer age;
-
-	@Pattern(regexp = "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}$")
-	private String ipAddress;
 
 }

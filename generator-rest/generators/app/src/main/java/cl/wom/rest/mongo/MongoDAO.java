@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.MDC;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -27,6 +28,7 @@ public class MongoDAO {
 	}
 
 	public void methodWithRepository() {
+		log.info("[methodWithRepository] Begin");
 
 		PersonDTO person = buildPerson();
 
@@ -34,33 +36,39 @@ public class MongoDAO {
 		personRepository.save(person);
 
 		// Custom search
-		personRepository.findByRut("123");
+		PersonDTO findByRutPerson = personRepository.findByRut(person.getRut());
+		log.info("[methodWithRepository] findByRutPerson={}", findByRutPerson);
 
 		// Custom search several fields
-		personRepository.findByRutAndActiveAndFriendsIn("123", true, "Juan,Diego");
+		PersonDTO findByRutAndActiveAndFriendsInPerson = personRepository
+				.findByRutAndActiveAndFriendsIn(person.getRut(), true, "Juan");
+		log.info("[methodWithRepository] findByRutAndActiveAndFriendsInPerson={}",
+				findByRutAndActiveAndFriendsInPerson);
 
 		// Custom search by query
-		personRepository.customFindById(person.getId());
+		List<PersonDTO> findByActiveAndNamePerson = personRepository.findByActiveAndName(true, "Pedro");
+		log.info("[methodWithRepository] findByActiveAndNamePerson {}", findByActiveAndNamePerson);
 
-		// Custom search by query
-		List<PersonDTO> people = personRepository.findByActiveAndName(true, "Pedro");
+		personRepository.delete(person);
+		log.info("[methodWithRepository] delete={}", person);
 
-		log.debug("People {}", people);
+		log.info("[methodWithRepository] End");
 
 	}
 
-	public void methodWithMongoTemplate() {
+	public void methodWithMongoTemplate(String name, Date dateLte, Date dateGt, Boolean active) {
+		log.info("[methodWithMongoTemplate] Begin");
 
 		PersonDTO person = buildPerson();
 
+		// Upsert
 		mongoTemplate.save(person);
+		log.info("[methodWithMongoTemplate] save={}", person);
 
-		mongoTemplate.remove(person);
+		PersonDTO findByIdPerson = mongoTemplate.findById(person.getId(), PersonDTO.class);
+		log.info("[methodWithMongoTemplate] findByIdPerson={}", findByIdPerson);
 
-	}
-
-	public void methodWithMongoTemplateQuery(String name, Date dateLte, Date dateGt, Boolean active) {
-
+		// Query example
 		Query query = new Query();
 
 		if (name != null && !name.trim().equals("")) {
@@ -79,23 +87,25 @@ public class MongoDAO {
 			query.addCriteria(Criteria.where("active").is(active));
 		}
 
-		// Find one
+		// Find one by query
+		PersonDTO findOnePerson = mongoTemplate.findOne(query, PersonDTO.class);
+		log.info("[methodWithMongoTemplate] findOnePerson={}", findOnePerson);
 
-		PersonDTO person = mongoTemplate.findOne(query, PersonDTO.class);
+		// Find many by query
+		List<PersonDTO> findPeople = mongoTemplate.find(query, PersonDTO.class);
+		log.info("[methodWithMongoTemplate] findPeople={}", findPeople);
 
-		log.debug("Person {}", person);
+		// Delete
+		mongoTemplate.remove(person);
+		log.info("[methodWithMongoTemplate] remove={}", person);
 
-		// Find many
-
-		List<PersonDTO> people = mongoTemplate.find(query, PersonDTO.class);
-
-		log.debug("People {}", people);
+		log.info("[methodWithMongoTemplate] End");
 
 	}
 
 	private PersonDTO buildPerson() {
 		PersonDTO person = new PersonDTO();
-		person.setRut("123");
+		person.setRut(MDC.get("trace-id"));
 		person.setName("Pedro");
 		person.setActive(true);
 		person.setFriends(Arrays.asList(new String[] { "Juan", "Diego" }));
