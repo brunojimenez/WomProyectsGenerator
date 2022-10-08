@@ -35,7 +35,7 @@ public class ApiService {
 		GetResponse getResponse = new GetResponse();
 		getResponse.setProcessStatus("OK");
 
-		// MongoDB Example
+		// MongoDB example
 		try {
 
 			mongoDAO.methodWithRepository();
@@ -46,6 +46,7 @@ public class ApiService {
 			throw new BusinessException("MONGO", "Mongo Error");
 		}
 
+		// RestTemplate example
 		try {
 			PublicapisResponse responseCall = restTemplate.getForObject("https://api.publicapis.org/random",
 					PublicapisResponse.class);
@@ -55,7 +56,7 @@ public class ApiService {
 			throw new BusinessException("REST_CALL", "Rest Call Error");
 		}
 
-		// Retry Example
+		// RetryTemplate example
 		try {
 			log.info("[getProcess] Retry Begin");
 

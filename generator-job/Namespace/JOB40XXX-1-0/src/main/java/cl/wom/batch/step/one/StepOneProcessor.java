@@ -1,59 +1,40 @@
-package cl.wom.api.service;
+package cl.wom.batch.step.one;
 
 import org.slf4j.MDC;
+import org.springframework.batch.item.ItemProcessor;
 import org.springframework.http.HttpStatus;
 import org.springframework.retry.support.RetryTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import cl.wom.api.controller.response.GetResponse;
-import cl.wom.api.controller.response.PostResponse;
-import cl.wom.api.exception.BusinessException;
-import cl.wom.api.external.publicapis.dto.PublicapisResponse;
-import cl.wom.api.kafka.KafkaProducer;
-import cl.wom.api.kafka.dto.Message;
-import cl.wom.api.persistence.MongoDAO;
+import cl.wom.batch.exception.BusinessException;
+import cl.wom.batch.external.publicapis.dto.PublicapisResponse;
+import cl.wom.batch.kafka.KafkaProducer;
+import cl.wom.batch.kafka.dto.Message;
+import cl.wom.batch.step.one.to.StepOneDataTO;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Service
-public class ApiService {
+@Component
+@AllArgsConstructor
+public class StepOneProcessor implements ItemProcessor<StepOneDataTO, String> {
 
-	private MongoDAO mongoDAO;
-	private KafkaProducer kafkaProducer;
 	private RetryTemplate retryTemplate;
 	private RestTemplate restTemplate;
+	private KafkaProducer kafkaProducer;
 
-	public ApiService(KafkaProducer kafkaProducer, MongoDAO mongoDAO, RetryTemplate retryTemplate,
-			RestTemplate restTemplate) {
-		this.kafkaProducer = kafkaProducer;
-		this.mongoDAO = mongoDAO;
-		this.retryTemplate = retryTemplate;
-		this.restTemplate = restTemplate;
-	}
+	@Override
+	public String process(StepOneDataTO dataTO) throws Exception {
 
-	// Read method
-	public GetResponse getProcess() {
-		log.info("[getProcess]");
+		MDC.put("id", dataTO.getId());
 
-		GetResponse getResponse = new GetResponse();
-		getResponse.setProcessStatus("OK");
+		log.info("[process] data={}", dataTO);
 
 		// Example kafka producer
 		kafkaProducer.produce(Message.builder().data(MDC.get("trace-id") + "-Hola").build());
-
-		// MongoDB example
-		try {
-
-			mongoDAO.methodWithRepository();
-			mongoDAO.methodWithMongoTemplate(null, null, null, null);
-
-		} catch (Exception e) {
-			log.error("[getProcess] Error={}", e.getMessage());
-			throw new BusinessException("MONGO", "Mongo Error");
-		}
 
 		// RestTemplate example
 		try {
@@ -90,28 +71,7 @@ public class ApiService {
 			throw new BusinessException("RETRY", "Retry Error");
 		}
 
-		return getResponse;
-	}
-
-	// Create method
-	public PostResponse postProcess() {
-		log.info("[postProcess]");
-
-		PostResponse postResponse = new PostResponse();
-		postResponse.setProcessStatus("OK");
-
-		return postResponse;
-	}
-
-	// Update method
-	public String putProcess() {
-		log.info("[putProcess]");
-		return "Hello";
-	}
-
-	// Delete method don't have response
-	public void deleteProcess() {
-		log.info("[deleteProcess]");
+		return dataTO.getData();
 	}
 
 }

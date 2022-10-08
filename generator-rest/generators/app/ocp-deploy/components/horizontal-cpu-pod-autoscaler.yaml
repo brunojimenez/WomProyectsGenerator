@@ -1,0 +1,16 @@
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: #(deploy-name)#-cpu-autoscaler
+spec:
+  scaleTargetRef:
+    apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    name: #(deploy-name)#
+  minReplicas: #(autoscaler.minReplicas)#
+  maxReplicas: #(autoscaler.maxReplicas)#
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      targetAverageUtilization: #(autoscaler.cpu.avgusage)#

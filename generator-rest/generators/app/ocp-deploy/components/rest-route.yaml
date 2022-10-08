@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Route
+metadata:
+  name: #(deploy-name)#-route-rest
+  labels:
+    component: #(deploy-name)#
+    version: #(version.service)#
+spec:
+  host: #(project-id)#.#(wildcard)#
+  path: #(prop.server.servlet.context-path)#
+  port:
+    targetPort: service-rest
+  to:
+    kind: Service
+    name: #(deploy-name)#
+    
