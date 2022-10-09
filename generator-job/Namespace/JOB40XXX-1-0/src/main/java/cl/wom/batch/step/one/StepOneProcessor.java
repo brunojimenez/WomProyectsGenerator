@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import cl.wom.batch.exception.BusinessException;
 import cl.wom.batch.external.publicapis.dto.PublicapisResponse;
 import cl.wom.batch.kafka.KafkaProducer;
-import cl.wom.batch.kafka.dto.Message;
+import cl.wom.batch.kafka.to.Message;
 import cl.wom.batch.step.one.to.StepOneDataTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

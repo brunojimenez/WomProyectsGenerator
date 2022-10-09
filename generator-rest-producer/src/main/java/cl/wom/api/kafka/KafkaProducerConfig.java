@@ -20,7 +20,7 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.kafka.transaction.KafkaTransactionManager;
 import org.springframework.transaction.support.AbstractPlatformTransactionManager;
 
-import cl.wom.api.kafka.dto.Message;
+import cl.wom.api.kafka.to.Message;
 
 @EnableKafka
 @Configuration

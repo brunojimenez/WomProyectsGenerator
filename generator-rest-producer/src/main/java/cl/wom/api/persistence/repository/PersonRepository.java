@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import cl.wom.api.persistence.dto.PersonDTO;
+import cl.wom.api.persistence.to.PersonDTO;
 
 @Repository
 public interface PersonRepository extends MongoRepository<PersonDTO, String> {

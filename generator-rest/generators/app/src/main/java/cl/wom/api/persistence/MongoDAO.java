@@ -10,8 +10,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import cl.wom.api.persistence.dto.PersonDTO;
 import cl.wom.api.persistence.repository.PersonRepository;
+import cl.wom.api.persistence.to.PersonDTO;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

@@ -1,0 +1,33 @@
+apiVersion: v1
+data:
+  #(deploy-name)#.properties: |-
+  
+    kafka.server=#(prop.kafka.binder.brokers)#
+    kafka.securityProtocol=#(prop.kafka.securityProtocol)#
+    kafka.truststore.location=#(prop.kafka.truststore.location)#
+    kafka.truststore.pass=#(truststore.password.base64)#
+    kafka.topic=#(prop.kafka.topic)#
+    
+    kafka.groupId=#(prop.kafka.groupId)#
+    kafka.concurrency=#(prop.kafka.concurrency)#
+    kafka.requestTimeoutMs=#(prop.kafka.requestTimeoutMs)#
+    kafka.maxPollRecords=#(prop.kafka.maxPollRecords)#
+    kafka.heartbeatIntervalMs=#(prop.kafka.heartbeatIntervalMs)#
+    kafka.maxPollIntervalMs=#(prop.kafka.maxPollIntervalMs)#
+    kafka.sessionTimeoutMs=#(prop.kafka.sessionTimeoutMs)#
+    
+    service.timeout=#(prop.service.timeout)#
+    
+    spring.data.mongodb.uri=#(prop.spring.data.mongodb.uri)#
+    spring.data.mongodb.option.max-wait-time=#(prop.spring.data.mongodb.option.max-wait-time)#
+    
+    retry.backoff=#(prop.retry.backoff)#
+    retry.retries=#(prop.retry.retries)#
+
+kind: ConfigMap
+metadata:
+  labels:
+    component: '#(deploy-name)#'
+    group: fuse7-java-openshift
+    version: '#(version.service)#'
+  name: #(deploy-name)#-properties

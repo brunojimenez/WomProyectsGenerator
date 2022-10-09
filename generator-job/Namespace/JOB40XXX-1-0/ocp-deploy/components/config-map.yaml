@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: #(deploy-name)#-properties
+  version: '#(version.service)#'
+  component: '#(deploy-name)#'
+data:
+  #(deploy-name)#.properties: |-
+    server.port=#(prop.server.port)#
+    server.servlet.context-path=#(prop.server.servlet.context-path)#
+    
+    management.endpoints.web.base-path=#(prop.management.endpoints.web.base-path)#
+    management.endpoints.web.exposure.include=#(prop.management.endpoints.web.exposure.include)#
+    management.endpoint.healthshow-details=#(prop.management.endpoint.healthshow-details)#
+    
+    service.timeout=#(prop.service.timeout)#
+
+    spring.data.mongodb.uri=#(prop.spring.data.mongodb.uri)#
+    spring.data.mongodb.option.max-wait-time=#(prop.spring.data.mongodb.option.max-wait-time)#
+    
+    retry.backoff=#(prop.retry.backoff)#
+    retry.retries=#(prop.retry.retries)#
+    
+    spring.main.lazy-initialization=#(prop.spring.main.lazy-initialization)#

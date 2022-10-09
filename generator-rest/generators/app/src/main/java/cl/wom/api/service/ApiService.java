@@ -10,23 +10,21 @@ import org.springframework.web.client.RestTemplate;
 import cl.wom.api.controller.response.GetResponse;
 import cl.wom.api.controller.response.PostResponse;
 import cl.wom.api.exception.BusinessException;
-import cl.wom.api.external.publicapis.dto.PublicapisResponse;
+import cl.wom.api.external.publicapis.to.PublicapisResponse;
 import cl.wom.api.persistence.MongoDAO;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class ApiService {
 
 	private MongoDAO mongoDAO;
-	private RetryTemplate retryTemplate;
-	private RestTemplate restTemplate;
 
-	public ApiService(MongoDAO mongoDAO, RetryTemplate retryTemplate, RestTemplate restTemplate) {
-		this.mongoDAO = mongoDAO;
-		this.retryTemplate = retryTemplate;
-		this.restTemplate = restTemplate;
-	}
+	private RetryTemplate retryTemplate;
+
+	private RestTemplate restTemplate;
 
 	// Read method
 	public GetResponse getProcess() {

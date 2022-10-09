@@ -11,9 +11,9 @@ import org.springframework.web.client.RestTemplate;
 import cl.wom.api.controller.response.GetResponse;
 import cl.wom.api.controller.response.PostResponse;
 import cl.wom.api.exception.BusinessException;
-import cl.wom.api.external.publicapis.dto.PublicapisResponse;
+import cl.wom.api.external.publicapis.to.PublicapisResponse;
 import cl.wom.api.kafka.KafkaProducer;
-import cl.wom.api.kafka.dto.Message;
+import cl.wom.api.kafka.to.Message;
 import cl.wom.api.persistence.MongoDAO;
 import lombok.extern.slf4j.Slf4j;
 

@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
-import cl.wom.batch.kafka.dto.Message;
+import cl.wom.batch.kafka.to.Message;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
