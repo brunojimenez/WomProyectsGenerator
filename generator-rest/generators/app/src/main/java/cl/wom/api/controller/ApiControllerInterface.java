@@ -21,7 +21,7 @@ import cl.wom.api.controller.response.GetResponse;
 import cl.wom.api.controller.response.PostResponse;
 
 @Validated
-@RequestMapping("${server.servlet.context-path}")
+@RequestMapping("/")
 public interface ApiControllerInterface {
 
 	@GetMapping
