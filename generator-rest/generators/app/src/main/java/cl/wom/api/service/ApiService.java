@@ -18,17 +18,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class ApiService {
+public class ApiService implements ApiServiceInterface {
 
 	private MongoDAO mongoDAO;
-
 	private RetryTemplate retryTemplate;
-
 	private RestTemplate restTemplate;
 
 	// Read method
 	public GetResponse getProcess() {
-		log.info("[getProcess] Begin");
+		log.info("Begin");
 
 		GetResponse getResponse = new GetResponse();
 		getResponse.setProcessStatus("OK");
@@ -40,7 +38,7 @@ public class ApiService {
 			mongoDAO.methodWithMongoTemplate(null, null, null, null);
 
 		} catch (Exception e) {
-			log.error("[getProcess] Error={}", e.getMessage());
+			log.error("Error={}", e.getMessage());
 			throw new BusinessException("MONGO", "Mongo Error");
 		}
 
@@ -48,18 +46,18 @@ public class ApiService {
 		try {
 			PublicapisResponse responseCall = restTemplate.getForObject("https://api.publicapis.org/random",
 					PublicapisResponse.class);
-			log.error("[getProcess] restTemplate getForObject={}", responseCall);
+			log.error("restTemplate getForObject={}", responseCall);
 		} catch (HttpClientErrorException | HttpServerErrorException e) {
-			log.error("[getProcess] Error={}", e.getResponseBodyAsString());
+			log.error("Error={}", e.getResponseBodyAsString());
 			throw new BusinessException("REST_CALL", "Rest Call Error");
 		}
 
 		// RetryTemplate example
 		try {
-			log.info("[getProcess] Retry Begin");
+			log.info("Retry Begin");
 
 			retryTemplate.execute(retry -> {
-				log.info("[getProcess] RetryCount={}", retry.getRetryCount());
+				log.info("RetryCount={}", retry.getRetryCount());
 
 				// Firts intent fail
 				if (retry.getRetryCount() == 0)
@@ -73,9 +71,9 @@ public class ApiService {
 				return true;
 			});
 
-			log.info("[getProcess] Retry End");
+			log.info("Retry End");
 		} catch (Exception e) {
-			log.error("[getProcess] Error={}", e.getMessage());
+			log.error("Error={}", e.getMessage());
 			throw new BusinessException("RETRY", "Retry Error");
 		}
 
@@ -85,7 +83,7 @@ public class ApiService {
 
 	// Create method
 	public PostResponse postProcess() {
-		log.info("[postProcess] Begin");
+		log.info("Begin");
 
 		PostResponse postResponse = new PostResponse();
 		postResponse.setProcessStatus("OK");
@@ -95,13 +93,13 @@ public class ApiService {
 
 	// Update method
 	public String putProcess() {
-		log.info("[putProcess] Begin");
+		log.info("Begin");
 		return "Hello";
 	}
 
 	// Delete method don't have response
 	public void deleteProcess() {
-		log.info("[deleteProcess] Begin");
+		log.info("Begin");
 	}
 
 }

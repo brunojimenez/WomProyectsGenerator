@@ -1,4 +1,4 @@
-package cl.wom.api.controller.response;
+package cl.wom.api.exception;
 
 import java.util.Collections;
 import java.util.List;
@@ -8,7 +8,7 @@ import org.springframework.validation.FieldError;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-public class ErrorModel {
+public class ApiExceptionModel {
 
 	private final String code;
 	private final String message;
@@ -16,15 +16,15 @@ public class ErrorModel {
 	@JsonInclude(Include.NON_NULL)
 	private final List<Object> subErrors;
 
-	public ErrorModel(String code, String reason) {
+	public ApiExceptionModel(String code, String reason) {
 		this(code, reason, null);
 	}
 
-	public ErrorModel(String code, String reason, Object subError) {
+	public ApiExceptionModel(String code, String reason, Object subError) {
 		this(code, reason, Collections.singletonList(subError));
 	}
 
-	public ErrorModel(String code, String message, List<Object> subErrors) {
+	public ApiExceptionModel(String code, String message, List<Object> subErrors) {
 		this.code = code;
 		this.message = message;
 		this.subErrors = subErrors;

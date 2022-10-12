@@ -15,28 +15,22 @@ import cl.wom.api.external.publicapis.to.PublicapisResponse;
 import cl.wom.api.kafka.KafkaProducer;
 import cl.wom.api.kafka.to.Message;
 import cl.wom.api.persistence.MongoDAO;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class ApiService {
+@AllArgsConstructor
+public class ApiService implements ApiServiceInterface {
 
 	private MongoDAO mongoDAO;
 	private KafkaProducer kafkaProducer;
 	private RetryTemplate retryTemplate;
 	private RestTemplate restTemplate;
 
-	public ApiService(KafkaProducer kafkaProducer, MongoDAO mongoDAO, RetryTemplate retryTemplate,
-			RestTemplate restTemplate) {
-		this.kafkaProducer = kafkaProducer;
-		this.mongoDAO = mongoDAO;
-		this.retryTemplate = retryTemplate;
-		this.restTemplate = restTemplate;
-	}
-
 	// Read method
 	public GetResponse getProcess() {
-		log.info("[getProcess]");
+		log.info("Begin");
 
 		GetResponse getResponse = new GetResponse();
 		getResponse.setProcessStatus("OK");
@@ -51,7 +45,7 @@ public class ApiService {
 			mongoDAO.methodWithMongoTemplate(null, null, null, null);
 
 		} catch (Exception e) {
-			log.error("[getProcess] Error={}", e.getMessage());
+			log.error("Error={}", e.getMessage());
 			throw new BusinessException("MONGO", "Mongo Error");
 		}
 
@@ -59,15 +53,15 @@ public class ApiService {
 		try {
 			PublicapisResponse responseCall = restTemplate.getForObject("https://api.publicapis.org/random",
 					PublicapisResponse.class);
-			log.error("[getProcess] restTemplate getForObject={}", responseCall);
+			log.error("restTemplate getForObject={}", responseCall);
 		} catch (HttpClientErrorException | HttpServerErrorException e) {
-			log.error("[getProcess] Error={}", e.getResponseBodyAsString());
+			log.error("Error={}", e.getResponseBodyAsString());
 			throw new BusinessException("REST_CALL", "Rest Call Error");
 		}
 
 		// RetryTemplate example
 		try {
-			log.info("[getProcess] Retry Begin");
+			log.info("Retry Begin");
 
 			retryTemplate.execute(retry -> {
 				log.info("[getProcess] RetryCount={}", retry.getRetryCount());
@@ -84,7 +78,7 @@ public class ApiService {
 				return true;
 			});
 
-			log.info("[getProcess] Retry End");
+			log.info("Retry End");
 		} catch (Exception e) {
 			log.error("[getProcess] Error={}", e.getMessage());
 			throw new BusinessException("RETRY", "Retry Error");
@@ -95,7 +89,7 @@ public class ApiService {
 
 	// Create method
 	public PostResponse postProcess() {
-		log.info("[postProcess]");
+		log.info("Begin");
 
 		PostResponse postResponse = new PostResponse();
 		postResponse.setProcessStatus("OK");
@@ -105,13 +99,13 @@ public class ApiService {
 
 	// Update method
 	public String putProcess() {
-		log.info("[putProcess]");
+		log.info("Begin");
 		return "Hello";
 	}
 
 	// Delete method don't have response
 	public void deleteProcess() {
-		log.info("[deleteProcess]");
+		log.info("Begin");
 	}
 
 }

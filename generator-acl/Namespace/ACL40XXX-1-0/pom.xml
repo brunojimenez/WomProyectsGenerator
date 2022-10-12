@@ -22,7 +22,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<coverage.ratio>0.8</coverage.ratio>
-		<logback.version>1.2.11</logback.version>
 		<jacoco.version>0.8.8</jacoco.version>
 	</properties>
 
