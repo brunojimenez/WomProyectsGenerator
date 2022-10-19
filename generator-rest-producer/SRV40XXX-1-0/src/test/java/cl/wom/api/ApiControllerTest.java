@@ -39,7 +39,7 @@ class ApiControllerTest {
 
 		when(apiService.getProcess()).thenReturn(new GetResponse());
 
-		this.mockMvc.perform(get("/api?id=123")) //
+		this.mockMvc.perform(get("/?id=123")) //
 				.andDo(print()) //
 				.andExpect(status().isOk()) //
 				.andExpect(content().string(containsString("Hello")));
@@ -51,7 +51,7 @@ class ApiControllerTest {
 
 		when(apiService.getProcess()).thenReturn(new GetResponse());
 
-		this.mockMvc.perform(get("/api/123")) //
+		this.mockMvc.perform(get("/123")) //
 				.andDo(print()) //
 				.andExpect(status().isOk()) //
 				.andExpect(content().string(containsString("Hello")));

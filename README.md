@@ -1,11 +1,34 @@
 
 # Proyectos nuevos
 
+![Bruno](images/bruno.jpg?raw=true "Bruno")
+
 ## ACL
+Servicio REST con una capa de Resilence4J.
+
 ## Batch
+Servicio Spring Batch.
+- Ejemplo MongoDB
+- Ejemplo RestTemplate
+- Ejemplo RetryTemplate
+
 ## Consumer
+Servicio consumidor de Kafka.
+- Ejemplo MongoDB
+- Ejemplo RestTemplate
+- Ejemplo RetryTemplate
+
 ## Rest 
+Servicio Spring Web.
+- Ejemplo MongoDB
+- Ejemplo RestTemplate
+- Ejemplo RetryTemplate
+
 ## Rest Producer
+Servicio Spring Web con producción de mensajes a Kafka.
+- Ejemplo MongoDB
+- Ejemplo RestTemplate
+- Ejemplo RetryTemplate
 
 # Proyectos antiguos
 
@@ -119,11 +142,13 @@ management.endpoint.health.show-details=always
 
 # General
 - Actualizar .gitignore
-- Quitar archivos
- - trustore.jks, keystore.jks
- - log4j-spring.xml
-- Agregar backlog-spring.xml
-- Agregar filter (interceptor) que está en los templates
+- Quitar archivos remanentes
+  - trustore.jks
+  - keystore.jks
+  - log4j-spring.xml
+- Agregar
+  - backlog-spring.xml
+- Agregar filter (interceptor) a los proyectos web.
 
 # Java
 - Usar annotation @SLF4J con log.info(), en vez de logger.info()

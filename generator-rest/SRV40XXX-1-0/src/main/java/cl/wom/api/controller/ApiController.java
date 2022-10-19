@@ -18,39 +18,42 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class ApiController implements ApiControllerInterface {
 
-	private final ApiService apiService;
+    private final ApiService apiService;
 
-	// GET /rest/?id=123
-	public ResponseEntity<GetResponse> getMappingRequestParam(String id) {
-		log.debug("id={}", id);
-		MDC.put("id", id);
-		return new ResponseEntity<>(apiService.getProcess(), HttpStatus.OK);
-	}
+    // GET /?id=123
+    public ResponseEntity<GetResponse> getMappingRequestParam(String id) {
+        log.debug("id={}", id);
+        MDC.put("id", id);
+        return new ResponseEntity<>(apiService.getProcess(), HttpStatus.OK);
+    }
 
-	// GET /rest/123
-	public ResponseEntity<GetResponse> getMappingPathParam(String id) {
-		log.debug("id={}", id);
-		MDC.put("id", id);
-		return new ResponseEntity<>(apiService.getProcess(), HttpStatus.OK);
-	}
+    // GET /123
+    public ResponseEntity<GetResponse> getMappingPathParam(String id) {
+        log.debug("id={}", id);
+        MDC.put("id", id);
+        return new ResponseEntity<>(apiService.getProcess(), HttpStatus.OK);
+    }
 
-	public ResponseEntity<PostResponse> postMapping(PostRequest request) {
-		log.debug("request={}", request);
-		MDC.put("id", request.getId());
-		MDC.put("name", request.getName());
-		return new ResponseEntity<>(apiService.postProcess(), HttpStatus.OK);
-	}
+    // POST
+    public ResponseEntity<PostResponse> postMapping(PostRequest request) {
+        log.debug("request={}", request);
+        MDC.put("id", request.getId());
+        MDC.put("name", request.getName());
+        return new ResponseEntity<>(apiService.postProcess(), HttpStatus.OK);
+    }
 
-	public ResponseEntity<String> putMapping(PutRequest request) {
-		log.debug("request={}", request);
-		MDC.put("id", request.getId());
-		return new ResponseEntity<>("Hello", HttpStatus.OK);
-	}
+    // PUT
+    public ResponseEntity<String> putMapping(PutRequest request) {
+        log.debug("request={}", request);
+        MDC.put("id", request.getId());
+        return new ResponseEntity<>("Hello", HttpStatus.OK);
+    }
 
-	public ResponseEntity<String> deleteMapping(String id) {
-		log.debug("request={}", id);
-		MDC.put("id", id);
-		return new ResponseEntity<>("Hello", HttpStatus.OK);
-	}
+    // DELETE /?id=123
+    public ResponseEntity<String> deleteMapping(String id) {
+        log.debug("request={}", id);
+        MDC.put("id", id);
+        return new ResponseEntity<>("Hello", HttpStatus.OK);
+    }
 
 }

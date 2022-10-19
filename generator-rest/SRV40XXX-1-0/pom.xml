@@ -93,7 +93,9 @@
 				<configuration>
 					<excludes>
 						<exclude>**cl/wom/api/config/**</exclude>
+						<exclude>**cl/wom/api/controller/filter/**</exclude>
 						<exclude>**cl/wom/api/exception/**</exclude>
+						<exclude>**cl/wom/api/external/**</exclude>
 						<exclude>*Test</exclude>
 					</excludes>
 				</configuration>
