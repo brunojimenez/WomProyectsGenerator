@@ -11,7 +11,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>cl.wom.cl</groupId>
+	<groupId>cl.wom.api</groupId>
 	<artifactId>generator_rest_producer</artifactId>
 	<version>1.0</version>
 	<name>rest</name>
@@ -22,7 +22,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<coverage.ratio>0.8</coverage.ratio>
-		<logback.version>1.2.11</logback.version>
 		<jacoco.version>0.8.8</jacoco.version>
 	</properties>
 
@@ -100,7 +99,9 @@
 				<configuration>
 					<excludes>
 						<exclude>**cl/wom/api/config/**</exclude>
+						<exclude>**cl/wom/api/controller/filter/**</exclude>
 						<exclude>**cl/wom/api/exception/**</exclude>
+						<exclude>**cl/wom/api/external/**</exclude>
 						<exclude>*Test</exclude>
 					</excludes>
 				</configuration>

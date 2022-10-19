@@ -1,4 +1,4 @@
-package cl.wom.api;
+package cl.wom.api.controller;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.Mockito.when;
@@ -23,7 +23,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import cl.wom.api.controller.ApiController;
 import cl.wom.api.controller.request.NestedObject;
 import cl.wom.api.controller.request.PostRequest;
 import cl.wom.api.controller.request.PutRequest;
@@ -75,7 +74,7 @@ class ApiControllerTest {
         // Mock process
         when(apiService.getProcess()).thenReturn(response);
 
-        this.mockMvc.perform(get("/").param("id", "123")) //
+        this.mockMvc.perform(get("/123")) //
                 .andDo(print()) //
                 .andExpect(status().isOk()) //
                 .andExpect(content().contentType("application/json"))

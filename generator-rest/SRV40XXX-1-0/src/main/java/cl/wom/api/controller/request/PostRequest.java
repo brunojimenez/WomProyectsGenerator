@@ -38,6 +38,7 @@ public class PostRequest {
     private Integer age;
 
     // Nested object require @Valid annotation
+    @NotNull
     @Valid
     private NestedObject nestedObject;
 

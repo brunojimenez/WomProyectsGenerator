@@ -24,6 +24,7 @@ public class RetryTemplateConfig {
 
 	@Bean
 	RetryTemplate retryTemplate() {
+
 		RetryTemplate retryTemplate = new RetryTemplate();
 
 		FixedBackOffPolicy fixedBackOffPolicy = new FixedBackOffPolicy();
@@ -40,6 +41,7 @@ public class RetryTemplateConfig {
 		SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy(retryRetries, supportedExceptions);
 		retryTemplate.setRetryPolicy(retryPolicy);
 		return retryTemplate;
+
 	}
 
 }

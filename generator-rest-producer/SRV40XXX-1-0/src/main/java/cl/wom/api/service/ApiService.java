@@ -64,7 +64,7 @@ public class ApiService implements ApiServiceInterface {
 			log.info("Retry Begin");
 
 			retryTemplate.execute(retry -> {
-				log.info("[getProcess] RetryCount={}", retry.getRetryCount());
+				log.info("RetryCount={}", retry.getRetryCount());
 
 				// Firts intent fail
 				if (retry.getRetryCount() == 0)
@@ -80,11 +80,12 @@ public class ApiService implements ApiServiceInterface {
 
 			log.info("Retry End");
 		} catch (Exception e) {
-			log.error("[getProcess] Error={}", e.getMessage());
+			log.error("Error={}", e.getMessage());
 			throw new BusinessException("RETRY", "Retry Error");
 		}
 
 		return getResponse;
+
 	}
 
 	// Create method

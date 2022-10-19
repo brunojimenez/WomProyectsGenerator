@@ -6,10 +6,10 @@ import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class PutRequest {
+public class NestedObject {
 
     @NotNull
     @NotBlank
-    private String id;
+    private String data;
 
 }
