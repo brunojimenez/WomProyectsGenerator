@@ -34,7 +34,7 @@ public class KafkaProducer {
 			future.addCallback(new ListenableFutureCallback<SendResult<String, Message>>() {
 				@Override
 				public void onSuccess(SendResult<String, Message> result) {
-					log.info("[send] Message OK");
+					log.info("Message OK");
 				}
 
 				@Override
@@ -46,7 +46,7 @@ public class KafkaProducer {
 
 			log.info("[send] Offset={}", future.get().getRecordMetadata().offset());
 		} catch (Exception e) {
-			log.error("[send][InterruptedException] Error={}", e);
+			log.error("[InterruptedException] Error={}", e);
 			throw new KafkaException(e);
 		}
 		return true;

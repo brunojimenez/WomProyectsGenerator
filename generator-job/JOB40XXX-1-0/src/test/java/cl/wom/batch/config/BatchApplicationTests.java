@@ -1,4 +1,4 @@
-package cl.wom.batch;
+package cl.wom.batch.config;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
@@ -26,25 +26,19 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import cl.wom.batch.step.one.StepOneReader;
 import cl.wom.batch.step.one.to.StepOneDataTO;
+import lombok.AllArgsConstructor;
 
 @SpringBatchTest
 @EnableAutoConfiguration
+@AllArgsConstructor
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
-class BatchApplicationTests {
+public class BatchApplicationTests {
 
 	private JobLauncherTestUtils jobLauncherTestUtils;
 
 	private JobRepositoryTestUtils jobRepositoryTestUtils;
 
 	private StepOneReader stepOneReader;
-
-	public BatchApplicationTests(JobLauncherTestUtils jobLauncherTestUtils, //
-			JobRepositoryTestUtils jobRepositoryTestUtils, //
-			StepOneReader stepOneReader) {
-		this.jobLauncherTestUtils = jobLauncherTestUtils;
-		this.jobRepositoryTestUtils = jobRepositoryTestUtils;
-		this.stepOneReader = stepOneReader;
-	}
 
 	@After
 	public void cleanUp() {
@@ -58,7 +52,7 @@ class BatchApplicationTests {
 	}
 
 	@Test
-	void completedTest() throws Exception {
+	public void completedTest() throws Exception {
 
 		// when
 		JobExecution jobExecution = jobLauncherTestUtils.launchJob(defaultJobParameters());

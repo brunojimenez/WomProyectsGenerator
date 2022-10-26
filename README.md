@@ -1,7 +1,6 @@
+![Wom](images/wom.png?raw=true "Wom")
 
 # Proyectos nuevos
-
-![Bruno](images/bruno.jpg?raw=true "Bruno")
 
 ## ACL
 Servicio REST con una capa de Resilence4J.
@@ -23,12 +22,16 @@ Servicio Spring Web.
 - Ejemplo MongoDB
 - Ejemplo RestTemplate
 - Ejemplo RetryTemplate
+- Ejemplo Test MockMVC
+- Ejemplo Test Service
 
 ## Rest Producer
 Servicio Spring Web con producción de mensajes a Kafka.
 - Ejemplo MongoDB
 - Ejemplo RestTemplate
 - Ejemplo RetryTemplate
+- Ejemplo Test MockMVC
+- Ejemplo Test Service
 
 # Proyectos antiguos
 
@@ -154,4 +157,4 @@ management.endpoint.health.show-details=always
 - Usar annotation @SLF4J con log.info(), en vez de logger.info()
 - Preferir @Value("${prop.key:defaultValue}") en vez de Environment.getProperty("prop.key")
 - Preferir @AllArgsConstructor o constructor en vez de @Autowired
-- Preferir log.info("[methodName] key={}", value); en vez de log.info("key=" + value);
+- No usar log.info("[methodName] key={}", value); el methodName se incluye de forma automática en el log.
