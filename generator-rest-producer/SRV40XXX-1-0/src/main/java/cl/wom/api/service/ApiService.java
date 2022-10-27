@@ -36,7 +36,12 @@ public class ApiService implements ApiServiceInterface {
 		getResponse.setProcessStatus("OK");
 
 		// Example kafka producer
-		kafkaProducer.produce(Message.builder().data(MDC.get("trace-id") + "-Hola").build());
+		kafkaProducer.produce( //
+				Message.builder() //
+						.traceId(MDC.get("trace-id")) //
+						.data("Hola") //
+						.build() //
+		);
 
 		// MongoDB example
 		try {

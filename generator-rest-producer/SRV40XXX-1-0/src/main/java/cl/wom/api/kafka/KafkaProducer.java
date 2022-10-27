@@ -27,7 +27,7 @@ public class KafkaProducer {
 
 	@Transactional("ktm")
 	public boolean produce(Message message) {
-		log.debug("[send] message={}", message);
+		log.debug("message={}", message);
 		try {
 			ListenableFuture<SendResult<String, Message>> future = kafkaTemplate.send(topic, message);
 
@@ -39,12 +39,12 @@ public class KafkaProducer {
 
 				@Override
 				public void onFailure(Throwable e) {
-					log.error("[send][Throwable] Error={}", e);
+					log.error("[Throwable] Error={}", e);
 					throw new KafkaException(e);
 				}
 			});
 
-			log.info("[send] Offset={}", future.get().getRecordMetadata().offset());
+			log.info("Offset={}", future.get().getRecordMetadata().offset());
 		} catch (Exception e) {
 			log.error("[InterruptedException] Error={}", e);
 			throw new KafkaException(e);

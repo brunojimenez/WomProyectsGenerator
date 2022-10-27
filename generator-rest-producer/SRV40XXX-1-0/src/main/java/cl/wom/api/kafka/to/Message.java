@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Message {
 
+	private String traceId;
 	private String data;
 
 }

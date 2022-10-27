@@ -68,6 +68,7 @@ public class BatchConfiguration {
 				.build();
 	}
 
+	// Single task example
 	public Step stepZero() {
 		log.info("[stepZero] Begin");
 		return steps.get("stepZero") //

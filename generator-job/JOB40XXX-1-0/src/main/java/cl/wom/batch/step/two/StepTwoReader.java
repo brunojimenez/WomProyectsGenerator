@@ -22,7 +22,7 @@ public class StepTwoReader {
 
 	public ItemReader<StepTwoDataTO> reader() {
 
-		log.info("[reader] Beggin");
+		log.info("Begin");
 
 		DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
 		lineTokenizer.setNames("rut", "account");
